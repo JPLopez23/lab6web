@@ -1,0 +1,19 @@
+La Liga Tracker API
+=====================
+
+Esta es una API RESTful para gestionar partidos de fútbol. Los usuarios pueden crear, leer, actualizar y eliminar partidos a través de varios endpoints. También se pueden registrar goles, tarjetas amarillas, tarjetas rojas y establecer tiempos extra para los partidos.
+
+Endpoints:
+----------
+1. **GET /api/matches** - Obtiene todos los partidos de la base de datos.
+2. **GET /api/matches/{id}** - Obtiene un partido por su ID.
+3. **POST /api/matches** - Crea un nuevo partido. Se requiere enviar un JSON con los campos `homeTeam`, `awayTeam`, y `matchDate`.
+4. **PUT /api/matches/{id}** - Actualiza un partido existente usando el ID. Se puede actualizar el equipo local, equipo visitante y la fecha del partido.
+5. **DELETE /api/matches/{id}** - Elimina un partido por ID.
+6. **PATCH /api/matches/{id}/goals** - Incrementa el número de goles de un partido.
+7. **PATCH /api/matches/{id}/yellowcards** - Incrementa el número de tarjetas amarillas de un partido.
+8. **PATCH /api/matches/{id}/redcards** - Incrementa el número de tarjetas rojas de un partido.
+9. **PATCH /api/matches/{id}/extratime** - Establece el tiempo extra para un partido.
+
+
+

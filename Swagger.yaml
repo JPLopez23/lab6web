@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  title: La Liga Tracker API
+  description: API para gestionar partidos de fútbol, incluyendo la creación de partidos, actualización de goles, tarjetas amarillas y rojas, y el establecimiento de tiempo extra.
+  version: 1.0.0
+paths:
+  /api/matches:
+    get:
+      summary: Obtener todos los partidos
+      responses:
+        '200':
+          description: Lista de partidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+    post:
+      summary: Crear un nuevo partido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        '201':
+          description: Partido creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+  /api/matches/{id}:
+    get:
+      summary: Obtener un partido por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Partido encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '404':
+          description: Partido no encontrado
+    put:
+      summary: Actualizar un partido
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        '200':
+          description: Partido actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+    delete:
+      summary: Eliminar un partido
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Partido eliminado
+  /api/matches/{id}/goals:
+    patch:
+      summary: Registrar un gol
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Gol registrado
+  /api/matches/{id}/yellowcards:
+    patch:
+      summary: Registrar una tarjeta amarilla
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tarjeta amarilla registrada
+  /api/matches/{id}/redcards:
+    patch:
+      summary: Registrar una tarjeta roja
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tarjeta roja registrada
+  /api/matches/{id}/extratime:
+    patch:
+      summary: Establecer tiempo extra
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                extraTime:
+                  type: string
+      responses:
+        '200':
+          description: Tiempo extra establecido
+components:
+  schemas:
+    Match:
+      type: object
+      properties:
+        id:
+          type: integer
+        homeTeam:
+          type: string
+        awayTeam:
+          type: string
+        matchDate:
+          type: string
+        goals:
+          type: integer
+        yellowCards:
+          type: integer
+        redCards:
+          type: integer
+        extraTime:
+          type: string

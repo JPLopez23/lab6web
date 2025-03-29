@@ -35,6 +35,7 @@ func main() {
 		away_team TEXT NOT NULL,
 		match_date TEXT NOT NULL
 	)`)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -57,17 +58,27 @@ func main() {
 	r.HandleFunc("/api/matches/{id}/redcards", registerRedCard).Methods("PATCH")
 	r.HandleFunc("/api/matches/{id}/extratime", setExtraTime).Methods("PATCH")
 
-	log.Println("Server starting on :8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	// Manejar todas las solicitudes OPTIONS (preflight)
+	r.Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	log.Println("Server starting on :8081")
+	log.Fatal(http.ListenAndServe(":8081", r))
 }
 
-// CORS middleware to allow cross-origin requests
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Permitir todos los orígenes
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
+		// Métodos HTTP permitidos
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
+
+		// Cabeceras permitidas
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		// Manejar preflight requests
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
 			return
@@ -141,6 +152,7 @@ func createMatch(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(m)
+
 }
 
 // Update match
@@ -198,5 +210,5 @@ func registerRedCard(w http.ResponseWriter, r *http.Request) {
 
 func setExtraTime(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Extra time set"))
+	w.Write([]byte("Extra time set"))
 }

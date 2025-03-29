@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./backend/matches.db:/app/matches.db
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    depends_on:
+      - backend

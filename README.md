@@ -29,11 +29,10 @@ La API de **La Liga Tracker** permite gestionar partidos de fútbol. Ofrece func
 Imagen de frontend funcionando: 
 ![Crear partido](./crear.png)
 ![Buscar partido](./buscar.png)
-![Partido creado](./Imagenes/creado.png)
+![Partido creado](.creado.png)
 ![Eliminar partido](./eliminar.png)
 ![Partido eliminado](./eliminado.png)
-![Carfar partidos](./cargar.png)
-![Logo de La Liga Tracker](./logo.png)
+![Cargar partidos](./cargar.png)
 ![Actualizar partido](./Actualizar.png)
 
 
